@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.I2C;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/**
+ * Class for the REV Colour Sensor V2
+ * This Colour sensor is made for Vex and so it has no official FRC api
+ */
 public class V2ColourSensor {
     protected final static int CMD = 0x80;
     protected final static int MULTI_BYTE_BIT = 0x20;
