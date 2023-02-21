@@ -1,4 +1,4 @@
-package libs.sensors;
+package frc.lib.team7558.revSensors;
 
 import edu.wpi.first.wpilibj.I2C;
 import java.nio.ByteBuffer;

@@ -1,4 +1,4 @@
-package libs.util;
+package frc.lib.team7558.utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;

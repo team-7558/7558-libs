@@ -1,4 +1,4 @@
-package libs.util;
+package frc.lib.team7558.utils;
 
 /**
  * Contains some basic utility functions that are used often.
