@@ -4,9 +4,6 @@
 
 package frc.lib.team7558.limelightVision;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.HttpCamera;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -35,12 +32,8 @@ public class Limelight {
   private NetworkTableEntry tcornxy = table.getEntry("tcornxy");
   private NetworkTableEntry getpipe = table.getEntry("getpipe");
 
-  // private HttpCamera LLfeed;
-  // private UsbCamera cargoCam;
-  // private int cameraStream =0;
-
-  public static double fieldLong = 16.54;
-  public static double fieldShort = 8.02;
+  public static double fieldLong = LimelightConstants.FieldConstants.fLength;
+  public static double fieldShort = LimelightConstants.FieldConstants.fWidth;
 
   private static Transform2d globalFieldToBlueAlliance =
       new Transform2d(
@@ -56,11 +49,7 @@ public class Limelight {
 
   /** Creates a new Limelight using the default pipeline */
   public Limelight() {
-    this(Mode.CONE_LOW);
-
-    // LLfeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
-    // cargoCam = CameraServer.startAutomaticCapture();
-    // cargoCam.setConnectVerbose(0);
+    this(Mode.DEFAULT);
   }
 
   /**
@@ -73,10 +62,16 @@ public class Limelight {
     this.pipeline(this.mode);
   }
 
+  /**
+   * @return The currently set limelight pipeline ID
+   */
   public double getPipeline() {
     return getpipe.getDouble(0);
   }
 
+  /**
+   * @return X value of the contours corner
+   */
   public double getCornerX() {
     double[] corners = tcornxy.getDoubleArray(new double[8]);
     if (corners.length > 0) {
@@ -135,11 +130,22 @@ public class Limelight {
     return botpose_fs.getDoubleArray(new double[7]);
   }
 
+  /**
+   * @return transform of the robot in the coordinate system of the field in the form of a WPILib
+   *     {@link Pose2d}
+   */
   public Pose2d getBotPose2dFs() {
     double[] pose3d = getBotPoseFs();
     return new Pose2d(pose3d[0], pose3d[1], Rotation2d.fromDegrees(pose3d[5]));
   }
 
+  /**
+   * Gets the bots {@link Pose2d}, but translated for the correct alliance relative to the field
+   *
+   * @param alliance - The alliance to translate the coordinate system for (1 = blue, 0 = red)
+   * @return transform of the robot in the coordinate system of the field in the form of a WPILib
+   *     {@link Pose2d}
+   */
   public Pose2d getBotPose2dAlliance(double alliance) {
     Pose2d pose = getBotPose2dFs();
     return alliance == 1
@@ -164,14 +170,17 @@ public class Limelight {
     return this;
   }
 
+  /** Turn on LEDs */
   public void LEDOn() {
     setLED(LEDMode.ON);
   }
 
+  /** Turn off LEDs */
   public void LEDOff() {
     setLED(LEDMode.OFF);
   }
 
+  /** Turn blink the LEDs */
   public void LEDFlash() {
     setLED(LEDMode.BLINK);
   }
