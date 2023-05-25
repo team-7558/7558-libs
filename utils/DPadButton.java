@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /** DPadButton class to make use of the four cardinal directions on the DPad */
+@Deprecated
 public class DPadButton extends Button {
 
   XboxController m_joystick;
